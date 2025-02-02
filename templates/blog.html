@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Blog - Red Ink{% endblock %}
+
+{% block content %}
+<div id="content" class="s-content s-content--blog">
+    {% for post in pagination.items %}
+    <div class="row entry-wrap">
+        <div class="column lg-12">
+            <article class="entry format-standard">
+                <header class="entry__header">
+                    <h1 class="entry__title">{{ post.title }}</h1>
+                    <div class="entry__meta">
+                        <div class="entry__meta-author">
+                            <svg><!-- SVG code here --></svg>
+                            <a href="#">{{ post.author }}</a>
+                        </div>
+                        <div class="entry__meta-date">
+                            <svg><!-- SVG code here --></svg>
+                            {{ post.created_at.strftime('%B %d, %Y') }}
+                        </div>
+                        {% if post.category %}
+                        <div class="entry__meta-cat">
+                            <svg><!-- SVG code here --></svg>
+                            <span class="cat-links">
+                                <a href="#0">{{ post.category }}</a>
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </header>
+                <div class="entry__content">
+                    {{ post.content | safe }}
+                </div>
+            </article>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Pagination Navigation -->
+    <!-- Pagination -->
+<div class="row pagination">
+    <div class="column lg-12">
+        <nav class="pgn">
+            <ul>
+                <!-- Previous Page -->
+                {% if pagination.has_prev %}
+                <li>
+                    <a class="pgn__prev" href="{{ url_for('blog', page=pagination.prev_num) }}">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.25 6.75L4.75 12L10.25 17.25"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.25 12H5"></path>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Page Numbers -->
+                {% for i in range(1, pagination.pages + 1) %}
+                <li>
+                    {% if i == pagination.page %}
+                    <span class="pgn__num current">{{ i }}</span>
+                    {% else %}
+                    <a class="pgn__num" href="{{ url_for('blog', page=i) }}">{{ i }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+
+                <!-- Next Page -->
+                {% if pagination.has_next %}
+                <li>
+                    <a class="pgn__next" href="{{ url_for('blog', page=pagination.next_num) }}">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.75 6.75L19.25 12L13.75 17.25"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 12H4.75"></path>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div> <!-- end pagination -->
+</div>
+{% endblock %}

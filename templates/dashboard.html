@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Red Ink{% endblock %}
+{% block content %}
+
+
+
+
+<div class="dashboard-page">
+    <div class="dashboard-container">
+        <!-- Left Column -->
+        <div class="left-column">
+
+            <!-- Wrapper for centering -->
+            <div class="lottie-wrapper">
+                <div id="lottie-container"></div>
+            </div>
+
+            <script>
+                var animation = lottie.loadAnimation({
+                    container: document.getElementById('lottie-container'),
+                    renderer: 'svg',  // 'svg', 'canvas', or 'html'
+                    loop: true,
+                    autoplay: true,
+                    path: "{{ url_for('static', filename='assets/img/swirl.json') }}" // Flask dynamic path
+                });
+            </script>
+
+
+            <h5 class="welcome-text">Welcome, {{ user.username }}!</h5>
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <h2>Daily Prompt</h2>
+            <h5>{{ today }}</h5> <!-- Dynamic date -->
+            {% if daily_prompt %}
+                <div class="content-primary">
+                    <div class="entry__content">
+                        <h5>{{ daily_prompt.title }}</h5>
+                        <p>{{ daily_prompt.content }}</p> <!-- Daily prompt -->
+                    </div>
+
+                    <!-- Textbox for user's response -->
+                    <form action="{{ url_for('submit_prompt', prompt_id=daily_prompt.id) }}" method="POST">
+                        <textarea
+                            name="user_response"
+                            rows="5"
+                            placeholder="{{ user_writing.content if user_writing else 'Write your response here...' }}"
+                            style="width: 100%;
+                                   resize: none;
+                                   font-size: 16px;
+                                   padding: 10px;
+                                   border: 1px solid #ccc;
+                                   border-radius: 5px;
+                                   box-sizing: border-box;">{{ user_writing.content if user_writing else '' }}</textarea>
+
+                        <!-- Submit Button -->
+                        <button type="submit">Submit</button>
+                    </form>
+
+                    <hr>
+                </div>
+            {% else %}
+                <p>No prompt available for today. Please check back later.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

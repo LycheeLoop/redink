@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolio - Red Ink{% endblock %}
+
+{% block content %}
+
+<!-- Masonry -->
+<div id="bricks" class="bricks">
+    <div class="masonry">
+        <div class="bricks-wrapper" data-animate-block>
+            <div class="grid-sizer"></div>
+
+            <!-- Loop through the writings passed from the route -->
+            {% for writing in writings %}
+            <article class="brick entry" data-animate-el>
+                <div class="entry__text">
+                    <div class="entry__header">
+                        <div class="entry__meta">
+                            <span class="cat-links">
+                                <a href="#">{{ writing.prompt.category }}</a>
+                            </span>
+                            <span class="byline">
+                                By: {{ writing.user.username }}
+                            </span>
+                        </div>
+                        <h1 class="entry__title">
+                            <a href="#0">{{ writing.title }}</a>
+                        </h1>
+                    </div>
+                    <div class="entry__excerpt">
+                        <p>{{ writing.content[:200] }}...</p> <!-- Show only the first 200 characters -->
+                    </div>
+                    <a class="entry__more-link" href="{{ url_for('entry_page', prompt_title=writing.prompt.title, user_id=writing.user_id) }}">
+                        View Full Prompt
+                    </a>
+                    {% if writing.prompt_id in community_prompt_ids %}
+                        <p style="font-size: 14px; font-family: Arial, sans-serif;">✨ Published</p>
+                    {% endif %}
+
+
+
+                </div> <!-- end entry__text -->
+            </article> <!-- end article -->
+            {% endfor %}
+
+        </div> <!-- end bricks-wrapper -->
+    </div> <!-- end masonry -->
+</div> <!-- end bricks -->
+
+
+
+<!-- Pagination -->
+<div class="row pagination">
+    <div class="column lg-12">
+        <nav class="pgn">
+            <ul>
+                <!-- Previous Page -->
+                {% if page > 1 %}
+                <li>
+                    <a class="pgn__prev" href="{{ url_for('portfolio', page=page-1) }}">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.25 6.75L4.75 12L10.25 17.25"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.25 12H5"></path>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- Page Numbers -->
+                {% for i in range(1, total_pages + 1) %}
+                <li>
+                    {% if i == page %}
+                    <span class="pgn__num current">{{ i }}</span>
+                    {% else %}
+                    <a class="pgn__num" href="{{ url_for('portfolio', page=i) }}">{{ i }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+
+                <!-- Next Page -->
+                {% if page < total_pages %}
+                <li>
+                    <a class="pgn__next" href="{{ url_for('portfolio', page=page+1) }}">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.75 6.75L19.25 12L13.75 17.25"></path>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 12H4.75"></path>
+                        </svg>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div> <!-- end pagination -->
+
+
+
+
+
+
+
+
+{% endblock %}

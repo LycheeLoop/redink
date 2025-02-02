@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Contact - Red Ink{% endblock %}
+
+{% block content %}
+
+
+<!-- # site-content
+================================================== -->
+<div id="content" class="s-content s-content--page">
+
+        <div class="row entry-wrap">
+            <div class="column lg-12">
+
+                <article class="entry">
+
+                    <header class="entry__header entry__header--narrow">
+
+                        <h1 class="entry__title">
+                            Get in Touch.
+                        </h1>
+
+                    </header>
+
+                    <div class="entry__media">
+                        <figure class="featured-image">
+                            <img src="images/thumbs/contact/contact-1200.jpg"
+                              srcset="images/thumbs/contact/contact-2400.jpg 2400w,
+                                      images/thumbs/contact/contact-1200.jpg 1200w,
+                                      images/thumbs/contact/contact-600.jpg 600w" sizes="(max-width: 2400px) 100vw, 2400px" alt="">
+                        </figure>
+                    </div>
+
+                    <div class="content-primary">
+
+                        <div class="entry__content">
+
+                            <p class="lead">
+                            Have questions, feedback, or prompt suggestions? Use the message box below to reach out
+                                —we’d love to hear from you!</p>
+
+                            <form method="post" action="{{ url_for('contact') }}" autocomplete="off">
+                                {{ form.hidden_tag() }} <!-- CSRF token -->
+
+                                <div class="form-field">
+                                    {{ form.name.label }}
+                                    {{ form.name(class_="u-fullwidth") }}
+                                    {% for error in form.name.errors %}
+                                        <small class="error">{{ error }}</small>
+                                {% endfor %}
+                                </div>
+
+                                <div class="form-field">
+                                    {{ form.email.label }}
+                                    {{ form.email(class_="u-fullwidth") }}
+                                    {% for error in form.email.errors %}
+                                        <small class="error">{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-field">
+                                    {{ form.message.label }}
+                                    {{ form.message(class_="u-fullwidth") }}
+                                    {% for error in form.message.errors %}
+                                        <small class="error">{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-field">
+                                    {{ form.submit(class_="btn btn--primary btn-wide btn--large u-fullwidth") }}
+                                </div>
+                            </form>
+
+
+
+
+
+
+
+
+                    </div>
+
+                </article>
+
+            </div>
+        </div>
+</section>
+
+
+{% endblock %}

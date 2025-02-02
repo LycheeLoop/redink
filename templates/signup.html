@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - Red Ink{% endblock %}
+
+{% block content %}
+
+
+        <!-- # site-content
+        ================================================== -->
+        <div id="content" class="s-content s-content--page">
+
+                <div class="row entry-wrap">
+                    <div class="column lg-12">
+
+                        <article class="entry">
+
+                            <header class="entry__header entry__header--narrow">
+                                <h1 class="entry__title">Join Red Ink</h1>
+                            </header>
+
+                            <div class="content-primary">
+
+                                <div class="entry__content">
+        
+                                    <p class="lead">Fill out the form below to start your journey!</p>
+
+                                    <form id="signup-form" class="mc-form">
+                                        <input type="text" name="USERNAME" id="sName" class="u-fullwidth text-center" placeholder="Username" required>
+                                        <input type="email" name="SEMAIL" id="sEmail" class="u-fullwidth text-center" placeholder="Email Address" required>
+                                        <input type="password" name="SPASS" id="sPass" class="u-fullwidth text-center" placeholder="Password" required>
+                                        <input type="password" name="SPASSV" id="sPass" class="u-fullwidth text-center" placeholder="Re-type Password" required>
+                                        <input type="submit" name="signup" value="Sign up" class="btn--small btn--primary u-fullwidth">
+                                        <div id="signup-flash-message" class="mc-status"></div>
+                                    </form> <!-- end form -->
+                                    <p class="centered-text">Already have an account? <a href="{{ url_for('login_page') }}">Log in</a></p>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+                </div>
+        </section>
+
+
+{% endblock %}

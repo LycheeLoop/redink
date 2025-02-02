@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <!-- Basic Page Needs -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Red Ink{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+
+    <!--Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+
+    {% block head %}{% endblock %}
+</head>
+
+<body id="top">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- Page Wrapper -->
+    <div id="page" class="s-pagewrap">
+
+        <!-- Header -->
+        {% block header %}
+        <header id="masthead" class="s-header">
+            <div class="s-header__branding">
+                <p class="site-title">
+                    <a href="{{ url_for('home') }}" rel="home">Red Ink.</a>
+                </p>
+            </div>
+
+            <div class="row s-header__navigation">
+                <nav class="s-header__nav-wrap">
+                    <h3 class="s-header__nav-heading">Navigate to</h3>
+                    <ul class="s-header__nav">
+                        <li><a href="{{ url_for('home') }}" title="">Home</a></li>
+                        <li class="has-children">
+                            <a href="#0" title="">Prompts</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('category_prompts', category_name='Philosophy') }}">Philosophy</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Fantasy') }}">Fiction & Fantasy</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Community') }}">Community & Environment</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Poetry') }}">Poetry</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Reflection') }}">Reflection</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Surrealism') }}">Surrealism</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Sci-Fi') }}">Sci-Fi</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('blog') }}" title="">Blog</a></li>
+                        <li><a href="{{ url_for('contact') }}" title="">Contact</a></li>
+
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('community') }}" title="">Community</a></li>
+                            <li><a href="{{ url_for('dashboard') }}" title="">Dashboard</a></li>
+                            <li><a href="{{ url_for('portfolio') }}" title="">Portfolio</a></li>
+                            <li><a href="{{ url_for('logout') }}" title="">Log out</a></li>
+
+
+
+                        {% else %}
+                            <li><a href="{{ url_for('login_page') }}" title="">Log in / Sign up</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+
+
+
+            <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
+
+        </header>
+        {% endblock %}
+
+         <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                <li class="flash {{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+
+
+        <!-- Content -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer id="colophon" class="s-footer">
+            <div class="row s-footer__subscribe">
+                <div class="column lg-12">
+                    <h2>Subscribe to Our Newsletter.</h2>
+                    <p>Subscribe now to get all the latest updates.</p>
+                    <form id="newsletter-form" class="mc-form">
+                        <input type="email" name="EMAIL" id="mce-EMAIL" class="u-fullwidth text-center" placeholder="Your Email Address" required>
+                        <input type="submit" name="subscribe" value="Subscribe" class="btn--small btn--primary u-fullwidth">
+                        <div id="flash-message" class="mc-status"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row s-footer__main">
+                <div class="column lg-5 s-footer__about">
+                    <h4>Red Ink.</h4>
+                    <p>Ready to take your creativity to the next level? Join Red Ink today and start your writing journey!</p>
+                </div>
+
+                <div class="column lg-5">
+                    <div class="row">
+                        <div class="column lg-6">
+                            <h4>Categories</h4>
+                            <ul class="link-list">
+                                <li><a href="{{ url_for('category_prompts', category_name='Philosophy') }}">Philosophy</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Fantasy') }}">Fiction & Fantasy</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Community') }}">Community & Environment</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Poetry') }}">Poetry</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Reflection') }}">Reflection</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Surrealism') }}">Surrealism</a></li>
+                                <li><a href="{{ url_for('category_prompts', category_name='Sci-Fi') }}">Sci-Fi</a></li>
+                            </ul>
+                        </div>
+                        <div class="column lg-6">
+                            <h4>Site Links</h4>
+                            <ul class="link-list">
+                                <li><a href="{{ url_for('home') }}">Home</a></li>
+                                <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                                <li><a href="{{ url_for('about') }}">About</a></li>
+                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row s-footer__bottom">
+                <div class="column lg-7">
+                    <ul class="s-footer__social">
+                        <li><a href="#0"><span>Facebook</span></a></li>
+                        <li><a href="#0"><span>Twitter</span></a></li>
+                        <li><a href="#0"><span>Instagram</span></a></li>
+                        <li><a href="#0"><span>Pinterest</span></a></li>
+                    </ul>
+                </div>
+                <div class="column lg-5">
+                    <div class="ss-copyright">
+                        <span>© Copyright Red Ink 2025</span>
+                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
