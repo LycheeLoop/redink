@@ -18,7 +18,8 @@ env.bak/
 venv.bak/
 
 # Project-files
-
+# Ignore database backup
+local_backup.dump
 
 # C extensions
 *.so
