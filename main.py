@@ -622,9 +622,7 @@ def portfolio(page):
     # ------------ TESTING PUTTING STAR EMOJI NEXT TO PUBLISHED ENTRIES -----------------------#
     in_community = db.session.query(CommunitySubmission).filter_by(user_id=current_user.id).all()
     community_prompt_ids = [entry.prompt_id for entry in in_community]
-    for writing in paginated_writings:
-        if writing.prompt_id in community_prompt_ids:
-            print(writing.prompt_id)
+
 
 
 
@@ -643,6 +641,6 @@ def portfolio(page):
     )
 
 # --------------------------- CLOSING FLASK ---------------------------------#
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5001))  # Default to 5000 in case PORT is not set
-    app.run(debug=True, port=port, host='0.0.0.0')  # Use 0.0.0.0 to bind externally
+port = int(os.environ.get("PORT", 5001))
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=port)
