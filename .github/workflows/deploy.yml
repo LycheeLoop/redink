@@ -22,8 +22,11 @@ jobs:
           echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
 
       - name: Build and push Docker image to Heroku
-        run: |
-          heroku container:push web --app redink
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: registry.heroku.com/redink/web
+          provenance: false
 
       - name: Release the app on Heroku
         run: |
