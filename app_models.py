@@ -3,10 +3,8 @@ from datetime import datetime
 from flask_login import UserMixin
 
 
-
-# Initialize SQLAlchemy
-db = SQLAlchemy()
-
+# Import the db instance from main.py
+from main import db
 
 # Prompts Table
 class Prompts(db.Model):
@@ -102,3 +100,5 @@ class BlogPost(db.Model):
 
 
 
+# Import the db instance from main.py
+from main import db

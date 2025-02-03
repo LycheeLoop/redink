@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5001:5001"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: ["gunicorn", "-b", "0.0.0.0:5001", "main:app"]  # Use Gunicorn to run the Flask app
+    container_name: redink  # Specify the container name for the web service
+
+  db:
+    image: postgres:16
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

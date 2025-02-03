@@ -21,6 +21,7 @@ venv.bak/
 # Ignore database backup
 local_backup.dump
 
+
 # C extensions
 *.so
 

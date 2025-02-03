@@ -3,7 +3,6 @@ import psycopg2
 import os
 from flask import Flask, render_template, request, flash, redirect, url_for,jsonify
 from flask_sqlalchemy import SQLAlchemy
-from models import db, Prompts, Users, UserWritings, Newsletter, BlogPost, CommunitySubmission
 from datetime import datetime
 import bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
@@ -12,12 +11,41 @@ from flask_mail import Message, Mail
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, email, length, regexp, URL
+from dotenv import load_dotenv
+from db_init import db
 #------------------------------ FLASK SETUP -----------------------------------------#
+# Initialize SQLAlchemy with the app using init_app
+#db = SQLAlchemy()
 
+# Load environment variables from .env file
+load_dotenv()
 app = Flask(__name__, static_url_path='/static', static_folder='static')
+
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Avoids overhead
+
+# Get the DATABASE_URL from environment variables
+DATABASE_URL = os.getenv('DATABASE_URL').strip()
+
+# Ensure the URL uses 'postgresql://' instead of 'postgres://'
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# Configure Flask to use the database
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+
+# Initialize the database with the app
+db.init_app(app)
+
+
+# Initialize login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+
+# Import models after initializing db
+from app_models import *
+
 #------------------------------ FLASK MAIL SETUP -----------------------------------------#
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # SMTP server for Gmail
 app.config['MAIL_PORT'] = 587  # Port for TLS
@@ -65,21 +93,10 @@ class ContactForm(FlaskForm):
     submit = SubmitField("Send Message", render_kw={"class": "btn btn-primary d-grid"})
 
 
-#------------------------------DATABASE CONNECTION SETTINGS-----------------------------------#
+#------------------------------CREATE TABLES-----------------------------------#
 
-# Settings
 
-DB_USERNAME = 'postgres'
-DB_PASSWORD = os.getenv('POSTGRES_PASSWORD', 'default_password')  # Fallback to 'default_password' if not set
-DB_NAME = 'red_ink'
-DB_HOST = 'localhost'
 
-# PostgreSQL Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Initialize SQLAlchemy
-db.init_app(app)
 
 # # Create tables
 # with app.app_context():
@@ -627,5 +644,5 @@ def portfolio(page):
 
 # --------------------------- CLOSING FLASK ---------------------------------#
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Default to 5000 in case PORT is not set
+    port = int(os.environ.get('PORT', 5001))  # Default to 5000 in case PORT is not set
     app.run(debug=True, port=port, host='0.0.0.0')  # Use 0.0.0.0 to bind externally
