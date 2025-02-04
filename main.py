@@ -641,6 +641,7 @@ def portfolio(page):
     )
 
 # --------------------------- CLOSING FLASK ---------------------------------#
-port = int(os.environ.get("PORT", 5001))
+port = int(os.getenv("PORT", "8000"))  # Default to "8000" if PORT is not set
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)

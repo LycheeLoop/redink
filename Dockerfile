@@ -19,13 +19,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application
 COPY . .
 
-# Expose the port the app runs on (5000)
-EXPOSE 5001
-
 # Set environment variables for Flask
 ENV FLASK_APP=main.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5001
 
-# Run the application
-CMD ["gunicorn", "-b", "0.0.0.0:5001", "main:app"]
+# Expose a dynamic port (Heroku assigns a port, so don't hardcode it)
+EXPOSE 8000
+
+# Use Gunicorn and bind to Heroku's dynamically assigned port
+CMD ["/bin/bash", "-c", "gunicorn main:app –bind 0.0.0.0:$PORT"]

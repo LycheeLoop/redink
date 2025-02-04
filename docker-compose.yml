@@ -4,13 +4,13 @@ services:
   web:
     build: .
     ports:
-      - "5001:5001"
+      - "${PORT:-8000}:${PORT:-8000}"  # Use PORT if set, otherwise default to 8000
     env_file:
       - .env
     depends_on:
       - db
-    command: ["gunicorn", "-b", "0.0.0.0:5001", "main:app"]  # Use Gunicorn to run the Flask app
-    container_name: redink  # Specify the container name for the web service
+    command: ["gunicorn", "--bind", "0.0.0.0:${PORT:-8000}", "main:app"]  # Use --bind instead of -b
+    container_name: redink
 
   db:
     image: postgres:16
