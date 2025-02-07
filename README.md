@@ -27,3 +27,20 @@ If you have any questions or suggestions, feel free to reach out to @LycheeLoop 
 ---
 
 Happy writing!
+
+
+## Screenshots
+
+Here are some screenshots of the platform in action:
+
+![Screenshot 1](./homepage.png)  
+-*Home*
+
+![Screenshot 2](./dashboard.png)  
+-*Dashboard featuring daily prompt.*
+
+![Screenshot 1](./portfolio.png)  
+-*Portfolio featuring your completed work.*
+
+![Screenshot 2](./entry.png)  
+-*Submit your entries to your portfolio or community board.*
